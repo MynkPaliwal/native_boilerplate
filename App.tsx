@@ -5,25 +5,24 @@
  * @format
  */
 
-import { StyleSheet } from 'react-native';
+import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
-import RootNavigator from '../native2/src/navigation/RootNavigator'
+import { Provider } from 'react-redux';
 
-function App() {
+import RootNavigator from './src/navigation/RootNavigator';
+import { store } from './src/redux/Store';
+
+const App = (): React.JSX.Element => {
   return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
-    </SafeAreaProvider>
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <RootNavigator />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </Provider>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
+};
 
 export default App;

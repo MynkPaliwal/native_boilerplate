@@ -2,11 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from '../screens/LoginScreen';
 import OtpScreen from '../screens/OtpScreen';
-
-export type AuthStackParamList = {
-  Login: undefined;
-  OTP: undefined;
-};
+import { AuthStackParamList } from './Types';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
