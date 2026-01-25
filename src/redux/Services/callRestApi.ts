@@ -1,5 +1,7 @@
-import { apiMapping } from './ApiMapping.js'
-import axios from 'axios';
+import { apiMapping } from './ApiMapping';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import type { BaseQueryFn } from '@reduxjs/toolkit/query';
+import { QueryArg } from './Types';
 
 const axiosClient = axios.create({
     baseURL: 'https://dummyjson.com',
@@ -24,7 +26,7 @@ axiosClient.interceptors.response.use(
     }
 );
 
-export const callRestApi = async (arg, api, extraOptions) => {
+export const callRestApi: BaseQueryFn<QueryArg, unknown, unknown> = async (arg, api, extraOptions) => {
     let apiConfig;
     let body;
     let pathParams;
@@ -43,7 +45,7 @@ export const callRestApi = async (arg, api, extraOptions) => {
                 status: 'CUSTOM_ERROR',
                 data: `Invalid API config: ${JSON.stringify(arg)}`,
             },
-        }
+        };
     }
 
     const { url, method } = apiConfig;
@@ -52,18 +54,19 @@ export const callRestApi = async (arg, api, extraOptions) => {
     try {
         const response = await axiosClient({
             url: finalUrl,
-            method,
+            method: method as AxiosRequestConfig['method'],
             signal: api?.signal,
             ...(method !== 'GET' && body ? { data: body } : {}),
         });
 
         return { data: response.data };
     } catch (error) {
+        const axiosError = error as AxiosError;
         return {
             error: {
-                status: error?.response?.status,
-                data: error?.response?.data || error?.message || String(error),
+                status: axiosError.response?.status || 'FETCH_ERROR',
+                data: axiosError.response?.data || axiosError.message || String(error),
             },
         };
     }
-}
+};

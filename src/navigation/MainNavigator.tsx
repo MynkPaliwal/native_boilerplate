@@ -2,11 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainScreen from '../screens/MainScreen';
 import SecondMainScreen from '../screens/SecondMainScreen';
-
-export type MainStackParamList = {
-    MainScreen: undefined;
-    SecondMainScreen: undefined;
-};
+import { MainStackParamList } from './Types';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 

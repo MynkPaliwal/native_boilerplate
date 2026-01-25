@@ -5,13 +5,15 @@
  * @format
  */
 
+import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
-import RootNavigator from './src/navigation/RootNavigator';
-import { store } from './src/redux/Store.js';
 
-function App() {
+import RootNavigator from './src/navigation/RootNavigator';
+import { store } from './src/redux/Store';
+
+const App = (): React.JSX.Element => {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
@@ -21,6 +23,6 @@ function App() {
       </SafeAreaProvider>
     </Provider>
   );
-}
+};
 
 export default App;
