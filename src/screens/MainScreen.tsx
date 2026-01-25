@@ -1,13 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, ActivityIndicator, ScrollView, FlatList, StyleSheet } from "react-native";
 import { useGetUsersQuery } from '../redux/Services/ApiService';
 import { SafeAreaView } from "react-native-safe-area-context";
+import { setUser } from '../redux/reducers/UserSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const MainScreen: React.FC = () => {
-    const { data, isLoading, error } = useGetUsersQuery(undefined);
+    const { data, isLoading, error, isSuccess } = useGetUsersQuery(undefined);
+    const dispatch = useDispatch();
 
-    // Extract users array and get first 5
-    const users = data?.users || (Array.isArray(data) ? data : []);
+    useEffect(() => {
+        if (isSuccess && data?.users && Array.isArray(data.users) && data.users.length > 0) {
+            dispatch(setUser(data.users));
+        }
+    }, [isSuccess, data, dispatch]);
+
+    const newUsers = useSelector((state: any) => state.users.user);
+    const users = Array.isArray(newUsers) ? newUsers : [];
     const firstFiveUsers = users.slice(0, 5);
 
     const renderUserItem = ({ item }: { item: any }) => (
@@ -34,12 +43,6 @@ const MainScreen: React.FC = () => {
             <View style={styles.centerContent}>
                 <Text style={styles.errorText}>Error loading users</Text>
                 <Text style={styles.errorDetail}>
-                    {(() => {
-                        if ('status' in error) {
-                            return `Status: ${error.status}`;
-                        }
-                        return error.message || 'Unknown error';
-                    })()}
                 </Text>
             </View>
         );

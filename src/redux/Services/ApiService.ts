@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
-import { callRestApi } from './callRestApi.js';
+import { callRestApi } from './callRestApi.ts';
 import { apiKeys } from './ApiMapping';
 import { User, DeleteUserRequest } from './Types';
 
@@ -42,7 +42,6 @@ export const ApiService = createApi({
     })
   }),
 });
-
 
 export const {
   useGetUsersQuery,
