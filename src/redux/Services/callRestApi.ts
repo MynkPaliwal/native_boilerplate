@@ -54,7 +54,7 @@ export const callRestApi: BaseQueryFn<QueryArg, unknown, unknown> = async (arg, 
     try {
         const response = await axiosClient({
             url: finalUrl,
-            method: method as AxiosRequestConfig['method'],
+            method: method,
             signal: api?.signal,
             ...(method !== 'GET' && body ? { data: body } : {}),
         });
