@@ -2,7 +2,7 @@ import React from 'react';
 import AuthNavigator from './AuthNavigator';
 import MainNavigator from './MainNavigator';
 
-const isLoggedIn: boolean = true;
+const isLoggedIn: boolean = false;
 function RootNavigator() {
     return isLoggedIn ? <MainNavigator /> : <AuthNavigator />;
 }
